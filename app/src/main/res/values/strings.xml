@@ -3,4 +3,7 @@
     <string name="item_image_description">Instrument Icon</string>
     <string name="img_id">Image Id</string>
     <string name="menu_bluetooth">蓝牙设备</string>
+    <string name="call_110">110</string>
+    <string name="call_119">119</string>
+    <string name="call_120">120</string>
 </resources>

@@ -15,28 +15,49 @@
          ACCESS_FINE_LOCATION permission, depending on the results when you
          check location usage in your app. -->
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-
     <!-- Needed only if your app makes the device discoverable to Bluetooth
          devices. -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-
     <!-- Needed only if your app communicates with already-paired Bluetooth
          devices. -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
-    <!-- Not needed if you can strongly assert that your app never derives
-         physical location from Bluetooth scan results and doesn't need location
-         access for any other purpose. -->
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
 
     <application
         android:name=".util.MyApplication"
         android:icon="@mipmap/safety_app_icon"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/safety_app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmApp">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="efN2Yu3zkY9hov0E118XeijE61YoELDR" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
