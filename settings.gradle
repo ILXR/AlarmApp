@@ -1,0 +1,2 @@
+rootProject.name = "Instrument"
+include ':app'
