@@ -1,4 +1,4 @@
-package com.example.instrument.activity;
+package com.example.alarm.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -27,9 +27,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.instrument.R;
-import com.example.instrument.bluetooth.BlueToothManager;
-import com.example.instrument.util.EpicParams;
+import com.example.alarm.util.EpicParams;
+import com.example.alarm.util.MyApplication;
+import com.example.alarm.R;
+import com.example.alarm.bluetooth.BlueToothManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,7 +209,7 @@ public class DeviceListFragment extends Fragment {
     }
 
     public void toast(String str) {
-        Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+        MyApplication.getInstance().toast(str);
     }
 
     /**

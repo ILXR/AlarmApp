@@ -1,4 +1,4 @@
-package com.example.instrument.bluetooth;
+package com.example.alarm.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -6,8 +6,8 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.instrument.activity.BlueToothActivity;
-import com.example.instrument.util.EpicParams;
+import com.example.alarm.activity.BlueToothActivity;
+import com.example.alarm.util.EpicParams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +23,8 @@ public class BlueToothManager {
     private              Thread            bluetoothThread;
     private              OutputStream      outStream;
     private              InputStream       inStream;
-    private              BluetoothDevice   device;
-    private              BlueToothActivity activity;
+    private BluetoothDevice   device;
+    private BlueToothActivity activity;
 
     public BlueToothManager() {
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

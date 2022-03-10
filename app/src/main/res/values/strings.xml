@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">随身乐器</string>
+    <string name="app_name">Alarm App</string>
     <string name="item_image_description">Instrument Icon</string>
     <string name="img_id">Image Id</string>
     <string name="menu_bluetooth">蓝牙设备</string>

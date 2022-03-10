@@ -1,4 +1,4 @@
-package com.example.instrument.util;
+package com.example.alarm.util;
 
 public class EpicParams {
     // BlueTooth Permission Code
@@ -7,7 +7,7 @@ public class EpicParams {
     public static final int      REQUEST_ENABLE_VISIBILITY      = 22;
     // BlueTooth Connect Params
     public static final String   UUID                           = "00001101-0000-1000-8000-00805F9B34FB";
-    public static final String   NAME                           = "EPICBluetooth";
+    public static final String   NAME                           = "ShiBluetooth";
     public static final byte[]   START_BYTE_ARRAY               = {(byte) 0xF0, (byte) 0x02, (byte) 0xA2, (byte) 0x0D, (byte) 0x0A};
     public static final Double[] BtValueParams                  = {0.000137774d, -0.003350385d, 0.027770317d, 0.865758775d, 0.708142224d};
     // UI CODE

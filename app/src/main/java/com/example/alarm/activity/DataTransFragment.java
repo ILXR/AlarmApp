@@ -1,4 +1,4 @@
-package com.example.instrument.activity;
+package com.example.alarm.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.instrument.R;
-import com.example.instrument.util.EpicParams;
+import com.example.alarm.R;
+import com.example.alarm.util.EpicParams;
 
 public class DataTransFragment extends Fragment {
 

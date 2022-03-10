@@ -1,25 +1,25 @@
-package com.example.instrument.bluetooth;
+package com.example.alarm.bluetooth;
 
 import android.util.Log;
 
-import com.example.instrument.util.EpicParams;
+import com.example.alarm.util.EpicParams;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class BlueToothDataManager {
-    private static BlueToothDataManager            _INSTANCE;
-    private final  String                          TAG                 = "BlueToothDataManager";
-    private final  int                             minValidStrLength   = 20;
-    private final  int                             minProcessStrLength = 100;
+    private static final String TAG = "BlueToothDataManager";
+    private static BlueToothDataManager _INSTANCE;
+    private final int          minValidStrLength   = 20;
+    private final int          minProcessStrLength = 100;
     // capacity data
-    private        int                             ChannelNum;
-    private        boolean                         hasInit;
-    private        ArrayList<ChannelDataProcessor> channelManagers;
+    private int                             ChannelNum;
+    private boolean                         hasInit;
+    private ArrayList<ChannelDataProcessor> channelManagers;
     // string buffer data
-    private        boolean                         startProcess;
-    private        StringBuffer                    recvBuffer;
+    private       boolean      startProcess;
+    private       StringBuffer recvBuffer;
 
     public BlueToothDataManager() {
         ChannelNum = 0;
@@ -41,7 +41,7 @@ public class BlueToothDataManager {
             recvBuffer = new StringBuffer();
             channelManagers = new ArrayList<>();
             for (int i = 0; i < channelNum; i++) {
-                channelManagers.add(new ChannelDataProcessor());
+                channelManagers.add(new ChannelDataProcessor(i));
             }
         } else {
             Log.e(TAG, "init: channel cannot be less than one");
@@ -72,7 +72,6 @@ public class BlueToothDataManager {
                 for (int i = 0; i < ChannelNum; i++) {
                     channelManagers.get(i).addData(data.get(i));
                 }
-                // TODO 处理数据
             }
         }
     }

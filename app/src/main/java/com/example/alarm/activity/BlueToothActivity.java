@@ -1,4 +1,4 @@
-package com.example.instrument.activity;
+package com.example.alarm.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
@@ -16,9 +16,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.instrument.R;
-import com.example.instrument.bluetooth.BlueToothManager;
-import com.example.instrument.util.EpicParams;
+import com.example.alarm.R;
+import com.example.alarm.bluetooth.BlueToothManager;
+import com.example.alarm.util.EpicParams;
+import com.example.alarm.util.MyApplication;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -143,7 +144,7 @@ public class BlueToothActivity extends AppCompatActivity {
     }
 
     public void toast(String str) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        MyApplication.getInstance().toast(str);
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {

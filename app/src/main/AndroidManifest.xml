@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.instrument">
+    package="com.example.alarm">
 
     <!-- Request legacy Bluetooth permissions on older devices. -->
     <uses-permission
@@ -31,22 +31,18 @@
 
 
     <application
-        android:icon="@mipmap/guitar_app_icon"
+        android:name=".util.MyApplication"
+        android:icon="@mipmap/safety_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/guitar_app_icon"
+        android:roundIcon="@mipmap/safety_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Instrument">
+        android:theme="@style/Theme.AlarmApp">
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.GuitarActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".activity.BlueToothActivity" />
     </application>
 
