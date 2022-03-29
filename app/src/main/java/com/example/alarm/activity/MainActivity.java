@@ -57,15 +57,9 @@ public class MainActivity extends AppCompatActivity {
         //设置定位参数
         setLocationOption();
 
-        findViewById(R.id.button110).setOnClickListener(v -> {
-            startAlarm("110");
-        });
-        findViewById(R.id.button119).setOnClickListener(v -> {
-            startAlarm("119");
-        });
-        findViewById(R.id.button120).setOnClickListener(v -> {
-            startAlarm("120");
-        });
+        findViewById(R.id.button110).setOnClickListener(v -> startAlarm("110"));
+        findViewById(R.id.button119).setOnClickListener(v -> startAlarm("119"));
+        findViewById(R.id.button120).setOnClickListener(v -> startAlarm("120"));
     }
 
     void setLocationOption() {
