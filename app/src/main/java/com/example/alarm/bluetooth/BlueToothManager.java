@@ -12,19 +12,18 @@ import com.example.alarm.util.EpicParams;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class BlueToothManager {
     private static final String            TAG = "BlueToothManager";
     private static       BlueToothManager  Instance;
-    private final        BluetoothAdapter  bluetoothAdapter;
+    private              BluetoothAdapter  bluetoothAdapter;
     private              BluetoothSocket   bluetoothSocket;
     private              Thread            bluetoothThread;
     private              OutputStream      outStream;
     private              InputStream       inStream;
-    private BluetoothDevice   device;
-    private BlueToothActivity activity;
+    private              BluetoothDevice   device;
+    private              BlueToothActivity activity;
 
     public BlueToothManager() {
         this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -36,7 +35,6 @@ public class BlueToothManager {
         }
         return Instance;
     }
-
 
     public void setBluActivity(BlueToothActivity activity) {
         this.activity = activity;
@@ -108,7 +106,7 @@ public class BlueToothManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BlueToothDataManager.getInstance().init(6);
+        BlueToothDataManager.getInstance().init(EpicParams.CHANNEL_NUM);
         bluetoothThread = new Thread(() -> {
             try {
                 bluetoothSocket.connect();
@@ -136,15 +134,17 @@ public class BlueToothManager {
                     break;
                 }
             }
+            //BtDataProcessor.getInstance().endProcess();
         });
         bluetoothThread.start();
+
     }
 
     public void send(String data) {
         Log.e(TAG, "send: " + data);
         try {
             if (bluetoothSocket.isConnected() && outStream != null) {
-                outStream.write(data.getBytes(StandardCharsets.UTF_8));
+                outStream.write(data.getBytes("utf-8"));
                 outStream.flush();
             } else {
                 Log.i(TAG, "send: bluetooth hasn't connected");

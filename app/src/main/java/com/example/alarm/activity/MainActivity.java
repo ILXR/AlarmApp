@@ -1,6 +1,8 @@
 package com.example.alarm.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.alarm.R;
 import com.example.alarm.location.MyLocationListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,22 +58,79 @@ public class MainActivity extends AppCompatActivity {
         Instance = this;
 
         //声明LocationClient类
-        mLocationClient = new LocationClient(getApplicationContext());
+        LocationClient.setAgreePrivacy(true);
+        try {
+            mLocationClient = new LocationClient(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //注册监听函数
-        mLocationClient.registerLocationListener(myListener);
-        //设置定位参数
-        setLocationOption();
+        if (mLocationClient != null) {
+            mLocationClient.registerLocationListener(myListener);
+            //设置定位参数
+            setLocationOption();
+            Log.i(TAG, "onCreate: " + mLocationClient.getVersion());
+        }
 
         findViewById(R.id.button110).setOnClickListener(v -> startAlarm("110"));
         findViewById(R.id.button119).setOnClickListener(v -> startAlarm("119"));
         findViewById(R.id.button120).setOnClickListener(v -> startAlarm("120"));
+
+        checkPermission();
+    }
+
+    private void checkPermission() {
+        ArrayList<String> permissions = new ArrayList<String>();
+        /***
+         * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
+         */
+        // 定位精确位置
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        /*
+         * 读写权限和电话状态权限非必要权限(建议授予)只会申请一次，用户同意或者禁止，只会弹一次
+         */
+        // 读写权限
+        if (addPermission(permissions, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Log.i(TAG, "checkPermission:  Manifest.permission.WRITE_EXTERNAL_STORAGE Deny \n");
+        }
+        // 读取电话状态权限
+        if (addPermission(permissions, Manifest.permission.READ_PHONE_STATE)) {
+            Log.i(TAG, "checkPermission:  Manifest.permission.READ_PHONE_STATE Deny \n");
+        }
+        if (permissions.size() > 0) {
+            ActivityCompat.requestPermissions(this, permissions.toArray(new String[0]), 1);
+        }
+    }
+
+    private boolean addPermission(ArrayList<String> permissionsList, String permission) {
+        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) { // 如果应用没有获得对应权限,则添加到列表中,准备批量申请
+            if (shouldShowRequestPermissionRationale(permission)) {
+                return true;
+            } else {
+                permissionsList.add(permission);
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
     void setLocationOption() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，设置定位模式，默认高精度
-        //LocationMode.Hight_Accuracy：高精度；
+        //LocationMode.High_Accuracy：高精度；
         //LocationMode.Battery_Saving：低功耗；
         //LocationMode.Device_Sensors：仅使用设备；
         //LocationMode.Fuzzy_Locating, 模糊定位模式；v9.2.8版本开始支持，可以降低API的调用频率，但同时也会降低定位精度；
@@ -109,7 +173,9 @@ public class MainActivity extends AppCompatActivity {
         //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
     }
 
-    private void startAlarm(String number) {
+    public void startAlarm(String number) {
+        if (mLocationClient == null)
+            return;
         myListener.setNumber(number);
         if (mLocationClient.isStarted())
             mLocationClient.restart();

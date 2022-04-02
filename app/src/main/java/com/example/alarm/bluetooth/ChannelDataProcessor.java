@@ -1,45 +1,36 @@
 package com.example.alarm.bluetooth;
 
-import android.util.Log;
+import com.example.alarm.util.EpicParams;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class ChannelDataProcessor {
     private static final String TAG = "ChannelDataProcessor";
+
     // algorithm params
-    // TODO 需要修改参数
-    private static final Double  startActionThreshold = 0.05d;
-    private static final Double  maxVolumeValue       = 0.40d;
-    /**
-     * 一次动作的最小数据量
-     */
-    private static final Integer minActionSize        = 15;
-    /**
-     * 一段时间内数据的极差小于该阈值，就可以作为baseline
-     */
-    private static final double  stableThreshold      = 0.03d;
-    private static final int     rollingMeanSize      = 5;
-    private static final int     initSize             = 80;
-    private final        int    channelId;
+    private static final Double startActionThreshold = EpicParams.startActionThreshold;
+    private static final int    rollingMeanSize      = 5;
+    private static final int    initSize             = 100;
+    private static final double stableThreshold      = 0.05d;
+
     private final Deque<Double> cacheQueue;
     private final Deque<Double> baselineQue;
     private       Double        meanValue;
+    private       boolean       startRecordValue;
     private       boolean       hasInit;
     private       boolean       inAction;
-    private       int           actionSize;
     private       Double        maxActionValue;
     private       Double        baseLine;
 
-    public ChannelDataProcessor(int id) {
+    public ChannelDataProcessor() {
         meanValue = 0d;
-        actionSize = 0;
         maxActionValue = 0d;
         cacheQueue = new ArrayDeque<>();
         baselineQue = new ArrayDeque<>();
         inAction = false;
         hasInit = false;
-        channelId = id;
+        startRecordValue = false;
     }
 
     public void addData(Double data) {
@@ -52,7 +43,8 @@ public class ChannelDataProcessor {
                 min = Math.min(min, item);
                 sum += item;
             }
-            if (max - min <= stableThreshold) {
+            if (!inAction && max - min <= stableThreshold) {
+                // 当正在采集动作数据时，不应该修改baseline，否则会将峰值作为baseline
                 hasInit = true;
                 baseLine = sum / initSize;
             }
@@ -63,6 +55,11 @@ public class ChannelDataProcessor {
             addDataToList();
         }
     }
+
+    public boolean isInAction() {
+        return inAction;
+    }
+
 
     private void addDataToQueue(Double data) {
         int size = cacheQueue.size();
@@ -78,26 +75,27 @@ public class ChannelDataProcessor {
     }
 
     private void addDataToList() {
-        if (inAction) {
-            actionSize++;
+        if (startRecordValue) {
             maxActionValue = Math.max(maxActionValue, meanValue);
-            if (meanValue < (maxActionValue - startActionThreshold) * 2 / 3 && actionSize >= minActionSize) {
-                Log.w(TAG, "addDataToList: 检测到" + this.channelId);
-                double volume = Math.min(0.5d, (maxActionValue - startActionThreshold) / (maxVolumeValue - startActionThreshold) / 2);
-                float vol = 0.5f + Float.parseFloat(Double.toString(volume));
-                // TODO 检测到按压动作
-                //GuitarActivity.getInstance().playGuitar(this.channelId, vol);
-            }
-            if (meanValue <= startActionThreshold) { // action end
-                clearState();
-            }
-        } else if (meanValue > startActionThreshold) // action start
+        }
+        if (meanValue > startActionThreshold && !inAction)
             inAction = true;
+        if (meanValue <= startActionThreshold && inAction) {
+            inAction = false;
+        }
+    }
+
+    public void startRecord() {
+        startRecordValue = true;
+    }
+
+    public Double getMaxActionValue() {
+        return maxActionValue;
     }
 
     public void clearState() {
-        actionSize = 0;
         maxActionValue = 0d;
         inAction = false;
+        startRecordValue = false;
     }
 }

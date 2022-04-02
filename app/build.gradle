@@ -1,18 +1,20 @@
 plugins {
     id 'com.android.application'
 }
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.alarmapp"
+        applicationId "com.example.alarm"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        ndk {
+            // 设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a"
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,13 +28,22 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets{
+        main{
+            jniLibs.srcDir 'libs'
+            jni.srcDirs = []    //disable automatic ndk-build
+        }
+    }
 }
 
 dependencies {
 //    百度地图
-    implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
-    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    androidTestImplementation ('com.android.support.test.espresso: espresso-core: 2.2.2', {
+//        exclude group: 'com.android.support',  module: 'support-annotations'
+//    })
+//    implementation 'com.baidu.lbsyun:BaiduMapSDK_Location:9.1.8'
+//    implementation 'com.baidu.lbsyun:BaiduMapSDK_Map:7.4.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
@@ -44,6 +55,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.alibaba:fastjson:1.1.72.android'
 
+//    implementation 'com.android.support:appcompat-v7:26.+'  //30改为26
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

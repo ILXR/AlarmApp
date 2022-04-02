@@ -100,21 +100,21 @@ public class BlueToothActivity extends AppCompatActivity {
                     //处理授权之后逻辑
                 } else {
                     // Permission Denied 权限被拒绝
-                    Toast.makeText(this, "权限被禁用", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "蓝牙权限被禁用", Toast.LENGTH_SHORT).show();
                 }
         }
     }
 
     public void checkBlePermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-        } else {
-            Log.i("tag", "已申请权限");
-        }
+        //if (ContextCompat.checkSelfPermission(this,
+        //        Manifest.permission.ACCESS_COARSE_LOCATION)
+        //        != PackageManager.PERMISSION_GRANTED) {
+        //    ActivityCompat.requestPermissions(this,
+        //            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
+        //            1);
+        //} else {
+        //    Log.i("tag", "已申请权限");
+        //}
     }
 
     @Override

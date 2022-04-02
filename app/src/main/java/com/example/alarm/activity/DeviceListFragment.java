@@ -27,10 +27,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.alarm.util.EpicParams;
-import com.example.alarm.util.MyApplication;
 import com.example.alarm.R;
 import com.example.alarm.bluetooth.BlueToothManager;
+import com.example.alarm.util.EpicParams;
+import com.example.alarm.util.MyApplication;
 
 import java.util.ArrayList;
 import java.util.List;

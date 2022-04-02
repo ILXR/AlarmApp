@@ -22,4 +22,10 @@ public class EpicParams {
     public static final int      MSG_CONNECT_TO_SERVER          = 658;
     public static final int      MSG_CONNECT_FAILED             = 1001;
     public static final int      MSG_CONNECT_SUCCEED            = 1002;
+    // Algorithm Params
+    public static final int      CHANNEL_NUM                    = 5;
+    public static final Double   startActionThreshold           = 0.25d;
+    public static final Double   crabThreshold                  = 1.0d;
+    public static final Double   crabTime                       = 2.0d;
+    public static final Double   actionTime                     = 1.0d;
 }

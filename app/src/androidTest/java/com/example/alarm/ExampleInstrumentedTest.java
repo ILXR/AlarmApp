@@ -1,4 +1,4 @@
-package com.example.instrument;
+package com.example.alarm;
 
 import android.content.Context;
 
